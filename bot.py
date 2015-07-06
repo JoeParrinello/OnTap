@@ -32,6 +32,13 @@ bot = Cinch::Bot.new do
   	$beerpref[m.user.nick] = beer
 	m.reply "#{m.user.nick} likes #{beer}."
   end
+
+  on :channel, /^!help/ do |m|
+	m.reply "help: Help Commands!"
+	m.reply "help: !drink <nick> gives a drink"
+	m.reply "help: !setdrink <drink name> sets your prefered drink"
+	m.reply "help: !drink gives yourself a drink, you alcoholic"
+  end
 end
 
 bot.start

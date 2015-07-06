@@ -6,10 +6,10 @@ bot = Cinch::Bot.new do
   configure do |c|
     c.server   = 'irc.freenode.org'
     c.channels = ["#hardorange"]
-    c.nick = "Bartender"
+    c.nick = "OnTap"
   end
 
-  on :channel, /^!beer (.+)/ do |m, nick|
+  on :channel, /^!drink (.+)/ do |m, nick|
   	if nick == bot.nick
   		m.reply "I don't drink beer."
   	elsif $beerpref.key?(nick)
@@ -19,7 +19,7 @@ bot = Cinch::Bot.new do
   	end
   end
 
-  on :channel, /^!setbeer (.+)/ do |m, beer|
+  on :channel, /^!setdrink (.+)/ do |m, beer|
   	$beerpref[m.user.nick] = beer
 	m.reply "#{m.user.nick} likes #{beer}."
   end

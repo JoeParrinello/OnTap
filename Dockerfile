@@ -1,4 +1,6 @@
-FROM ruby:2.1-onbuild
+FROM ruby:2.1
+
+RUN gem install cinch
 
 COPY bot.py .
 

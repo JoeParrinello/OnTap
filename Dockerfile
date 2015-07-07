@@ -2,8 +2,8 @@ FROM ruby:2.1
 
 RUN gem install cinch
 
-COPY bot.py .
+COPY bot.rb .
 
-CMD ["ruby","bot.py"]
+CMD ["ruby","bot.rb"]
 
 

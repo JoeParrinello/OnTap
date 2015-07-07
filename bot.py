@@ -10,13 +10,17 @@ bot = Cinch::Bot.new do
   end
 
   on :channel, /^!drink (.+)/ do |m, nick|
-  	if nick == bot.nick
-  		m.reply "I don't drink beer."
-  	elsif $beerpref.key?(nick)
-		m.reply "#{m.user.nick} gives #{nick} a #{$beerpref[nick]}."
+  	if m.channel.has_user?(nick)
+		if nick == bot.nick
+  			m.reply "I don't drink beer."
+  		elsif $beerpref.key?(nick)
+			m.reply "#{m.user.nick} gives #{nick} a #{$beerpref[nick]}."
+		else
+  			m.reply "#{m.user.nick} gives #{nick} a beer."
+  		end
 	else
-  		m.reply "#{m.user.nick} gives #{nick} a beer."
-  	end
+		m.reply "#{nick} isn't online to receive a drink."
+	end
   end
 
   on :channel, /^!drink$/ do |m|

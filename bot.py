@@ -21,7 +21,7 @@ bot = Cinch::Bot.new do
 
   on :channel, /^!drink$/ do |m|
 	if $beerpref.key?(m.user.nick)
-		m.reply "I give #{m.user.nick} a #{beerpref[m.user.nick]}."
+		m.reply "I give #{m.user.nick} a #{$beerpref[m.user.nick]}."
 	else
 		m.reply "I give #{m.user.nick} a beer."
 	end

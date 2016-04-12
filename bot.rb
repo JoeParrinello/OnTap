@@ -2,6 +2,25 @@ require 'cinch'
 
 $beerpref = {}
 
+$default_drink = "beer"
+
+# emulate /me behavior
+def action_string(string)
+  "\001ACTION #{string}\001"
+end
+
+def give_drink(m, nick, drink)
+    m.reply action_string(" gives #{nick} a #{drink}.")
+end
+
+def give_user_preferred_drink(m, nick)
+    if $beerpref.key?(nick)
+        give_drink(m, nick, $beerpref[nick])
+    else
+        give_drink(m, nick, $default_drink)
+    end
+end
+
 bot = Cinch::Bot.new do
     configure do |c|
         raise "Environment Variable for Server not Set." unless ENV.has_key?("server")
@@ -12,13 +31,12 @@ bot = Cinch::Bot.new do
     end
 
     on :channel, /^!drink (.+)/ do |m, nick|
+        nick = nick.strip # some irc clients add whitespace when autocompleting nickname.
         if m.channel.has_user?(nick)
             if nick == bot.nick
                 m.reply "I don't drink beer."
-            elsif $beerpref.key?(nick)
-                m.reply "#{m.user.nick} gives #{nick} a #{$beerpref[nick]}."
             else
-                m.reply "#{m.user.nick} gives #{nick} a beer."
+                give_user_preferred_drink(m, nick)
             end
         else
             m.reply "#{nick} isn't online to receive a drink."
@@ -26,13 +44,26 @@ bot = Cinch::Bot.new do
     end
 
     on :channel, /^!drink$/ do |m|
-        if $beerpref.key?(m.user.nick)
-            m.reply "I give #{m.user.nick} a #{$beerpref[m.user.nick]}."
-        else
-            m.reply "I give #{m.user.nick} a beer."
-        end
+        give_user_preferred_drink(m, m.user.nick)
     end
 
+    on :channel, /^!drinks$/ do |m|
+        m.reply "A round of drinks on #{m.user.nick}"
+        m.channel.users.each  { |user, modes|
+            if user.nick != bot.nick
+                give_user_preferred_drink(m, user.nick)
+            end
+        }
+    end
+
+    on :channel, /^!drinks (.+)$/ do |m, drink|
+        m.reply "A round of #{drink} on #{m.user.nick}"
+        m.channel.users.each  { |nick, modes|
+            if nick != bot.nick
+                give_drink(m, nick, drink)
+            end
+        }
+    end
 
     on :channel, /^!setdrink (.+)/ do |m, beer|
         $beerpref[m.user.nick] = beer
@@ -42,8 +73,11 @@ bot = Cinch::Bot.new do
     on :channel, /^!help/ do |m|
         m.reply "help: Help Commands!"
         m.reply "help: !drink <nick> gives a drink"
-        m.reply "help: !setdrink <drink name> sets your prefered drink"
+        m.reply "help: !setdrink <drink name> sets your preferred drink"
         m.reply "help: !drink gives yourself a drink, you alcoholic"
+        m.reply "help: !drinks gives everyone their preferred drink"
+        m.reply "help: !drinks <drink> gives everyone a <drink>"
+
     end
 end
 

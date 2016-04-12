@@ -1,8 +1,10 @@
 # OnTap
 
-The Barsman for an the #hardorange IRC channel.
+The IRC Channel Bartender
 
-!setdrink <Drink Name> to have OnTap remember your favorite drink
-!drink <nick> to give a person a drink.
-!drink to give yourself a drink.
-!help to read the help.
+- `!setdrink <drink>` to have OnTap remember your favorite drink.
+- `!drink <nick>` to give `nick` their favorite drink.
+- `!drink` to give yourself a drink.
+- `!drinks` to give everyone their favorite drink.
+- `!drinks <drink>` to give everyone a `<drink>`.
+- `!help` to read the help.

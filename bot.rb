@@ -10,7 +10,11 @@ def action_string(string)
 end
 
 def give_drink(m, nick, drink)
+  if drink[0] =~ /^[aeiou].*/i
+    m.reply action_string(" gives #{nick} an #{drink}.")
+  else
     m.reply action_string(" gives #{nick} a #{drink}.")
+  end
 end
 
 def give_user_preferred_drink(m, nick)

@@ -1,6 +1,12 @@
 require 'cinch'
 
+persistenceFile = "drinks.bar"
+
 $beerpref = {}
+
+if File.exist?(persistenceFile)
+  $beerpref = Marshal.load(File.read(persistenceFile))
+end
 
 $default_drink = "beer"
 
@@ -72,6 +78,7 @@ bot = Cinch::Bot.new do
     on :channel, /^!setdrink (.+)/ do |m, beer|
         $beerpref[m.user.nick] = beer
         m.reply "#{m.user.nick} likes #{beer}."
+        File.open(persistenceFile, 'w') {|f| f.write(Marshal.dump($beerpref)) }
     end
 
     on :channel, /^!help/ do |m|

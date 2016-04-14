@@ -8,3 +8,8 @@ The IRC Channel Bartender
 - `!drinks` to give everyone their favorite drink.
 - `!drinks <drink>` to give everyone a `<drink>`.
 - `!help` to read the help.
+
+
+In order for the bot to run, please set either environment variables, or runtime variables for:
+- ```server```
+- ```channel```

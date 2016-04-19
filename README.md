@@ -13,3 +13,7 @@ The IRC Channel Bartender
 In order for the bot to run, please set either environment variables, or runtime variables for:
 - ```server```
 - ```channel```
+
+To log into your chosen IRC server using SASL authentication, please set either environment variables, or runtime variables for:
+- ```username```
+- ```password```

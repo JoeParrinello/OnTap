@@ -38,6 +38,11 @@ bot = Cinch::Bot.new do
         c.server   = ENV['server']
         c.channels = [ENV['channel']]
         c.nick = "OnTap"
+        if ENV.has_key?("username") && ENV.has_key?("password")
+          c.nick = ENV['username']
+          c.sasl.username = ENV['username']
+          c.sasl.password = ENV['password']
+        end
     end
 
     on :channel, /^!drink (.+)/ do |m, nick|

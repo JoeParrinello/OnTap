@@ -68,9 +68,9 @@ bot = Cinch::Bot.new do
 
     on :channel, /^!drinks (.+)$/ do |m, drink|
         m.reply "A round of #{drink} on #{m.user.nick}"
-        m.channel.users.each  { |nick, modes|
-            if nick != bot.nick && !m.channel.voiced?(user)
-                give_drink(m, nick, drink)
+        m.channel.users.each  { |user, modes|
+            if user != bot.nick && !m.channel.voiced?(user)
+                give_drink(m, user, drink)
             end
         }
     end
